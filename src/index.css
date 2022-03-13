@@ -64,7 +64,22 @@ nav .logo-container .logo {
     width: 100vw;
     height: 100vh;
     position: fixed;
-    background: linear-gradient(to bottom, #00000065, #000000);
+    background: linear-gradient(to bottom, #00000070 90%, #00000000), url("./images/8ad4e4299ef5e377d2ef00ba5c94c44c.webp") center center/cover no-repeat;
+}
+
+.home {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+    height: 30vh;
+}
+
+.primary-title {
+    color: #fff;
+    font-size: 60px;
+    font-weight: 700;
 }
 
 
@@ -113,6 +128,7 @@ nav .logo-container .logo {
     margin: 8px;
     font-size: 17px;
     border-radius: 5px;
+    border: solid 2px rgb(121, 119, 119);
 }
 
 .secondary-button {
@@ -130,4 +146,27 @@ nav .logo-container .logo {
 .secondary-button:hover {
     color: rgb(48, 48, 48);
     border: solid 2px currentColor;
+}
+
+
+/* OnBoarding form */
+
+.onboarding form {
+    display: flex;
+    justify-content: center;
+}
+
+.onboarding form section {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.onboarding form input {
+    padding: 15px 30px;
+    border-radius: 5px;
+    margin: 10px 0;
+    font-size: 15px;
 }
