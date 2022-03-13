@@ -1,13 +1,133 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;700&display=swap");
+:root {
+    --c-b-g-1: #fe3072;
+    --c-b-g-2: #ff5940;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+* {
+    font-family: "Readex Pro", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    text-align: center;
+}
+
+.primary-button {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 15px;
+    background: linear-gradient(45deg, var(--c-b-g-1), var(--c-b-g-2));
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: none;
+}
+
+.primary-button:hover {
+    background: linear-gradient(260deg, var(--c-b-g-1), var(--c-b-g-2));
+}
+
+
+/* ---Navbar--- */
+
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+nav .logo-container {
+    width: 170px;
+    margin: 15px;
+}
+
+nav .logo-container .logo {
+    width: 100%;
+}
+
+.nav-button {
+    color: var(--c-b-g-1);
+    text-transform: uppercase;
+    font-size: 28px;
+    background: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    margin: 15px;
+}
+
+
+/* ---Home Page --- */
+
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    background: linear-gradient(to bottom, #00000065, #000000);
+}
+
+
+/* --- AuthModal --- */
+
+.auth-modal-container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    background-color: #00000060;
+}
+
+.auth-modal-bg {
+    background: #000000;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.auth-modal {
+    background-color: #fff;
+    max-width: 360px;
+    border-radius: 10px;
+    padding: 40px;
+    z-index: 3;
+}
+
+.auth-modal .close {
+    float: right;
+}
+
+.auth-modal form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth-modal input[type="email"],
+.auth-modal input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px;
+    font-size: 17px;
+    border-radius: 5px;
+}
+
+.secondary-button {
+    color: rgb(121, 119, 119);
+    background-color: rgb(255, 255, 255);
+    font-weight: 500;
+    font-size: 15px;
+    text-transform: uppercase;
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: solid 2px currentColor;
+    margin: 6px;
+}
+
+.secondary-button:hover {
+    color: rgb(48, 48, 48);
+    border: solid 2px currentColor;
 }

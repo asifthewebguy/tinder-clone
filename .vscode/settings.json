@@ -1,0 +1,13 @@
+{
+    "nuxt.isNuxtApp": false,
+    "jshint.enable": false,
+    "files.associations": {
+        "**/src/**/*.js": "javascriptreact",
+        "**/src/**/*.jsx": "javascriptreact"
+    },
+    "cSpell.words": [
+        "browserslist",
+        "componts",
+        "Readex"
+    ]
+}
