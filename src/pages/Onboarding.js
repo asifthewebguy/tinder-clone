@@ -2,12 +2,33 @@ import { useState } from "react";
 import Nav from "../componts/Nav";
 
 const Onboarding = () => {
-  // const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({
+    user_id: "",
+    user_name: "",
+    dob_day: "",
+    dob_month: "",
+    dob_year: "",
+    show_gender: false,
+    gender_identity: "man",
+    gender_interest: "woman",
+    email: "",
+    url: "",
+    about: "",
+    matches: [],
+  });
   const handleSubmit = () => {
     console.log("submit");
   };
-  const handleChange = () => {
-    console.log("handleChange");
+  const handleChange = (e) => {
+    console.log("e", e);
+    const value = e.target.value;
+    const name = e.target.name;
+    console.log("value" + value, "name" + name);
+
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
   return (
     <>
@@ -23,36 +44,37 @@ const Onboarding = () => {
               id="first_name"
               placeholder="First Name"
               required={true}
-              value={""}
+              value={formData.first_name}
               onChange={handleChange}
             />
-            {/* <label htmlFor="last_name">Last Name</label>
-          <input type="text" id="last_name" placeholder="Last Name" /> */}
 
             <label>Birthday</label>
             <div className="multiple">
               <input
                 type="number"
                 id="birth_day"
+                name="dob_day"
                 placeholder="DD"
                 required={true}
-                value={""}
+                value={formData.birth_day}
                 onChange={handleChange}
               />
               <input
                 type="number"
                 id="birth_month"
+                name="dob_month"
                 placeholder="MM"
                 required={true}
-                value={""}
+                value={formData.dob_month}
                 onChange={handleChange}
               />
               <input
                 type="number"
                 id="birth_year"
+                name="dob_year"
                 placeholder="YYYY"
                 required={true}
-                value={""}
+                value={formData.dob_year}
                 onChange={handleChange}
               />
             </div>
@@ -132,7 +154,7 @@ const Onboarding = () => {
               value={""}
               onChange={handleChange}
             />
-            <input type="submit" />
+            <input type="submit" onClick={handleSubmit} />
           </section>
           <section>
             <label htmlFor="photo">Profile</label>
