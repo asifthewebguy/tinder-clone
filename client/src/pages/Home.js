@@ -1,6 +1,6 @@
-import Nav from "../componts/Nav";
+import Nav from "../components/Nav";
 import { useState } from "react";
-import AuthModal from "../componts/AuthModal";
+import AuthModal from "../components/AuthModal";
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);

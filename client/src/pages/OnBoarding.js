@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Nav from "../componts/Nav";
+import Nav from "../components/Nav";
 
 const Onboarding = () => {
   const [formData, setFormData] = useState({
