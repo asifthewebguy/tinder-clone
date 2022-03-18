@@ -15,6 +15,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.json('Hello World');
 });
+// signup route
 app.post('/signup', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const { email, password } = req.body;
@@ -38,7 +39,7 @@ app.post('/signup', async(req, res) => {
         };
         const insertedUser = await users.insertOne(user_data);
         const token = jwt.sign(insertedUser, sanEmail, {
-            expiresIn: 60 * 60 * 24,
+            expiresIn: 60 * 24,
         });
         res.status(201).json({ token, userId: generateUserId, email: sanEmail });
     } catch (err) {
@@ -47,6 +48,39 @@ app.post('/signup', async(req, res) => {
         await client.close();
     }
 });
+
+// login route
+app.post('/login', async(req, res) => {
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
+    const { email, password } = req.body;
+    console.log(req.body);
+    try {
+        await client.connect();
+        const db = client.db(db_name);
+        const users = db.collection('users');
+        const user = await users.findOne({ email });
+
+        const isPasswordValid = await bcrypt.compare(password, user.hashed_password);
+
+        if (user && isPasswordValid) {
+            const token = jwt.sign(user, email, {
+                expiresIn: 60 * 24,
+            });
+            res.status(201).json({ token, userId: user.user_id, email });
+        }
+        if (!user || !isPasswordValid) {
+            res.status(400).send("Invalid email or password");
+        }
+
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.close();
+    }
+
+});
+
+// get all users route (test)
 app.get('/users', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     try {
