@@ -1,9 +1,15 @@
 import { useState } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
+import { Navigate } from "react-router-dom";
 
 const Onboarding = () => {
+    const [cookies, setCookie, removeCookie] = useCookies(["user"]);
+    const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    user_id: "",
+    user_id: cookies.UserId,
     first_name: "",
     dob_day: "",
     dob_month: "",
@@ -11,14 +17,24 @@ const Onboarding = () => {
     show_gender: false,
     gender_identity: "man",
     gender_interest: "woman",
-    email: "",
     url: "",
     about: "",
     matches: [],
   });
-  const handleSubmit = () => {
-    console.log("submit");
+
+  const handleSubmit = async (e) => {
+    console.log("Onboarding submitted");
+    e.preventDefault();
+    try{
+        const response = await axios.put('http://localhost:8000/user', formData);
+        const success = response.status === 200;
+        if(success) navigate("/dashboard");
+    }
+    catch(err){
+        console.log(err);
+    }
   };
+
   const handleChange = (e) => {
     const value =
       e.target.type === "checkbox" ? e.target.checked : e.target.value;
@@ -38,7 +54,7 @@ const Onboarding = () => {
       <div className="onboarding">
         <h2>CREATE ACCOUNT</h2>
 
-        <form action="#">
+        <form onSubmit={handleSubmit}>
           <section>
             <label htmlFor="first_name">First Name</label>
             <input
@@ -164,7 +180,7 @@ const Onboarding = () => {
               value={formData.about}
               onChange={handleChange}
             />
-            <input type="submit" onClick={handleSubmit} />
+            <input type="submit" />
           </section>
           <section>
             <label htmlFor="photo">Profile</label>

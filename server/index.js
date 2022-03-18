@@ -25,7 +25,7 @@ app.post('/signup', async(req, res) => {
 
     try {
         await client.connect();
-        const db = client.db(db_name);
+        const db = client.db('app-data');
         const users = db.collection('users');
         const sanEmail = email.toLowerCase();
         const userExists = await users.findOne({ sanEmail });
@@ -41,7 +41,7 @@ app.post('/signup', async(req, res) => {
         const token = jwt.sign(insertedUser, sanEmail, {
             expiresIn: 60 * 24,
         });
-        res.status(201).json({ token, userId: generateUserId, email: sanEmail });
+        res.status(201).json({ token, user_id: generateUserId });
     } catch (err) {
         res.status(500).json({ message: err.message });
     } finally {
@@ -56,7 +56,7 @@ app.post('/login', async(req, res) => {
     console.log(req.body);
     try {
         await client.connect();
-        const db = client.db(db_name);
+        const db = client.db('app-data');
         const users = db.collection('users');
         const user = await users.findOne({ email });
 
@@ -66,7 +66,7 @@ app.post('/login', async(req, res) => {
             const token = jwt.sign(user, email, {
                 expiresIn: 60 * 24,
             });
-            res.status(201).json({ token, userId: user.user_id, email });
+            res.status(201).json({ token, user_id: user.user_id });
         }
         if (!user || !isPasswordValid) {
             res.status(400).send("Invalid email or password");
@@ -79,6 +79,41 @@ app.post('/login', async(req, res) => {
     }
 
 });
+
+// update user data
+app.put('/user', async(req, res) => {
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
+    const formData = req.body;
+    console.log(req.body);
+    try {
+        await client.connect();
+        const db = client.db('app-data');
+        const users = db.collection('users');
+
+        const queryUser = { user_id: formData.user_id };
+
+        const updateUserData = {
+            $set: {
+                first_nam3e: formData.first_name,
+                dob_day: formData.dob_day,
+                dob_month: formData.dob_month,
+                dob_year: formData.dob_year,
+                show_gender: formData.show_gender,
+                gender_identity: formData.gender_identity,
+                gender_interest: formData.gender_interest,
+                url: formData.url,
+                about: formData.about
+            }
+        }
+        const insertedUser = await users.updateOne(queryUser, updateUserData);
+        res.send(insertedUser);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.close();
+    }
+});
+
 
 // get all users route (test)
 app.get('/users', async(req, res) => {
