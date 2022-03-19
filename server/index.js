@@ -93,7 +93,7 @@ app.put('/user', async(req, res) => {
 
         const updateUserData = {
             $set: {
-                first_nam3e: formData.first_name,
+                first_name: formData.first_name,
                 dob_day: formData.dob_day,
                 dob_month: formData.dob_month,
                 dob_year: formData.dob_year,
@@ -133,6 +133,24 @@ app.get('/user', async(req, res) => {
     } finally {
         await client.close();
     }
+});
+
+// get gendered users
+app.get('/gendered-users', async(req, res) => {
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
+    const gender = req.query.gender;
+    console.log(req.query);
+    try {
+        await client.connect();
+        const database = client.db('app-data');
+        const users = database.collection('users');
+        const query = { gender_identity: gender }
+        const genderedUsers = await users.find(query).toArray();
+        res.json(genderedUsers);
+    } finally {
+        await client.close();
+    }
+
 });
 
 
