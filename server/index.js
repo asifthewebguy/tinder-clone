@@ -15,6 +15,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.json('Hello World');
 });
+
 // signup route
 app.post('/signup', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
@@ -53,7 +54,6 @@ app.post('/signup', async(req, res) => {
 app.post('/login', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const { email, password } = req.body;
-    console.log(req.body);
     try {
         await client.connect();
         const db = client.db('app-data');
@@ -84,7 +84,6 @@ app.post('/login', async(req, res) => {
 app.put('/user', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const formData = req.body;
-    console.log(req.body);
     try {
         await client.connect();
         const db = client.db('app-data');
@@ -115,6 +114,28 @@ app.put('/user', async(req, res) => {
 });
 
 
+// get single user data
+app.get('/user', async(req, res) => {
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
+    const { userId } = req.query;
+
+    try {
+        await client.connect();
+        const db = client.db('app-data');
+        const users = db.collection('users');
+
+        const query = ({ user_id: userId });
+        const user = await users.findOne(query);
+
+        res.status(201).send(user);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.close();
+    }
+});
+
+
 // get all users route (test)
 app.get('/users', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
@@ -128,4 +149,6 @@ app.get('/users', async(req, res) => {
         await client.close();
     }
 });
+
+
 app.listen(PORT, () => { console.log('Server Running on PORT: ' + PORT); });
