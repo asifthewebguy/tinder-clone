@@ -47,6 +47,7 @@ const Dashboard = () => {
                 userId,
                 matchedUserId
             });
+            console.log(matchedUserId);
             getUser();
         } catch(err) {
             console.log(err);
