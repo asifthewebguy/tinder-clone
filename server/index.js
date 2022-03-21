@@ -117,8 +117,7 @@ app.put('/user', async(req, res) => {
 // get single user data
 app.get('/user', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
-    const { userId } = req.query;
-
+    const userId = req.query.userId;
     try {
         await client.connect();
         const db = client.db('app-data');
@@ -138,19 +137,43 @@ app.get('/user', async(req, res) => {
 // get gendered users
 app.get('/gendered-users', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
-    const gender = req.query.gender;
     console.log(req.query);
+    const gender = req.query.gender;
     try {
         await client.connect();
         const database = client.db('app-data');
         const users = database.collection('users');
-        const query = { gender_identity: gender }
+        const query = { gender_identity: { $eq: gender } }
         const genderedUsers = await users.find(query).toArray();
+        console.log(genderedUsers);
         res.json(genderedUsers);
     } finally {
         await client.close();
     }
 
+});
+
+// add a new Match
+app.put('/addmatch', async(req, res) => {
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
+    // console.log(req.query);
+    const { userId, matchedUserId } = req.query;
+
+    try {
+        await client.connect();
+        const database = client.db('app-data');
+        const users = database.collection('users');
+        const query = { user_id: userId };
+        const update = {
+            $push: {
+                matches: { user_id: matchedUserId }
+            }
+        }
+        const updatedUser = await users.updateOne(query, update);
+        res.json(updatedUser);
+    } finally {
+        await client.close()
+    }
 });
 
 
