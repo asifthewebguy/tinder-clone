@@ -30,6 +30,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
       setCookie('UserId', response.data.user_id, { path: '/' });
       setCookie('AuthToken', response.data.token, { path: '/' });
+      const authToken = cookies.AuthToken;
 
       if(success && isSignUp) navigate("/boarding");
       if(success && !isSignUp) navigate("/dashboard");

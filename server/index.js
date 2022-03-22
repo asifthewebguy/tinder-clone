@@ -137,7 +137,7 @@ app.get('/user', async(req, res) => {
 // get gendered users
 app.get('/gendered-users', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
-    console.log(req.query);
+    // console.log(req.query);
     const gender = req.query.gender;
     try {
         await client.connect();
@@ -145,7 +145,7 @@ app.get('/gendered-users', async(req, res) => {
         const users = database.collection('users');
         const query = { gender_identity: { $eq: gender } }
         const genderedUsers = await users.find(query).toArray();
-        console.log(genderedUsers);
+        // console.log(genderedUsers);
         res.json(genderedUsers);
     } finally {
         await client.close();

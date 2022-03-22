@@ -37,10 +37,9 @@ const Dashboard = () => {
         getUser();
 
         getGenderedUsers();
-    } , [user, genderedUsers]);
-
-    console.log(user);
-
+    } , [genderedUsers]);
+    // console.log(user);
+    // console.log(genderedUsers);
     const updateMatches = async (matchedUserId) => {
         try{
             await axios.put('http://localhost:8000/addmatch', {

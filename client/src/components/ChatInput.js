@@ -6,7 +6,7 @@ const [textArea, setTextArea] = useState(null);
            <textarea
                 name=""
                 id=""
-                value={textArea}
+                value={textArea === null ? '' : textArea}
                 onChange={(e)=>{setTextArea(e.target.value)}}>
             </textarea>
            <button className="secondary-button">Submit</button>
