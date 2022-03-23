@@ -5,6 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const { query } = require('express');
 const db_username = 'tinderDBuser';
 const db_password = '5MqAdMv3A2pLaORr';
 const db_name = 'Cluster0';
@@ -82,6 +83,7 @@ app.post('/login', async(req, res) => {
 
 // update user data
 app.put('/user', async(req, res) => {
+    console.log("put user");
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const formData = req.body;
     try {
@@ -101,7 +103,8 @@ app.put('/user', async(req, res) => {
                 gender_identity: formData.gender_identity,
                 gender_interest: formData.gender_interest,
                 url: formData.url,
-                about: formData.about
+                about: formData.about,
+                matches: []
             }
         }
         const insertedUser = await users.updateOne(queryUser, updateUserData);
@@ -116,6 +119,7 @@ app.put('/user', async(req, res) => {
 
 // get single user data
 app.get('/user', async(req, res) => {
+    console.log("get user");
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const userId = req.query.userId;
     try {
@@ -136,28 +140,27 @@ app.get('/user', async(req, res) => {
 
 // get gendered users
 app.get('/gendered-users', async(req, res) => {
+    console.log("get gendered users");
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
-    // console.log(req.query);
-    const gender = req.query.gender;
+    const { gender } = req.query;
     try {
         await client.connect();
         const database = client.db('app-data');
         const users = database.collection('users');
         const query = { gender_identity: { $eq: gender } }
         const genderedUsers = await users.find(query).toArray();
-        // console.log(genderedUsers);
         res.json(genderedUsers);
     } finally {
         await client.close();
     }
-
 });
 
 // add a new Match
 app.put('/addmatch', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
-    // console.log(req.query);
-    const { userId, matchedUserId } = req.query;
+    const { userId, matchedUserId } = req.body;
+
+    console.log(userId, matchedUserId, req.body);
 
     try {
         await client.connect();

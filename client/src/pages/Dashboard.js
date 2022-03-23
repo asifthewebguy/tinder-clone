@@ -1,5 +1,5 @@
 import TinderCard from "react-tinder-card";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import ChatContainer from '../components/ChatContainer';
@@ -12,6 +12,7 @@ const Dashboard = () => {
     const userId = cookies.UserId;
 
     const getUser = async () => {
+        // console.log(userId);
         try {
             const response = await axios.get('http://localhost:8000/user', {
                 params: { userId }
@@ -33,20 +34,21 @@ const Dashboard = () => {
         }
     };
 
-    useEffect(() => {
-        getUser();
+    useEffect(
+        () => {
+            getUser();
+            getGenderedUsers();
+    } , [user, genderedUsers]);
 
-        getGenderedUsers();
-    } , [genderedUsers]);
     // console.log(user);
     // console.log(genderedUsers);
     const updateMatches = async (matchedUserId) => {
+
         try{
+            console.log(userId, matchedUserId);
             await axios.put('http://localhost:8000/addmatch', {
-                userId,
-                matchedUserId
+                params: { userId, matchedUserId }
             });
-            console.log(matchedUserId);
             getUser();
         } catch(err) {
             console.log(err);
