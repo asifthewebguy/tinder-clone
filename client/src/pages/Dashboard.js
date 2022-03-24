@@ -43,11 +43,10 @@ const Dashboard = () => {
     // console.log(user);
     // console.log(genderedUsers);
     const updateMatches = async (matchedUserId) => {
-
         try{
             console.log(userId, matchedUserId);
             await axios.put('http://localhost:8000/addmatch', {
-                params: { userId, matchedUserId }
+              userId, matchedUserId
             });
             getUser();
         } catch(err) {
