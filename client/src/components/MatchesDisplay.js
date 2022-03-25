@@ -7,6 +7,7 @@ const MatchesDisplay = ({matches}) => {
             await axios.get('http://localhost:8000/users',{
                 params: {userIds: JSON.stringify(matchedUserIds)}
             });
+            setMatchProfiles(response.data);
         }catch(err){
             console.log(err);
         }
