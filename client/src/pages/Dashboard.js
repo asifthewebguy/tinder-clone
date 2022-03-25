@@ -11,6 +11,9 @@ const Dashboard = () => {
     const [lastDirection, setLastDirection] = useState(null);
     const userId = cookies.UserId;
 
+    const tempGetUser = useRef(null);
+    const tempGetGenderedUsers = useRef(null);
+
     const getUser = async () => {
         // console.log(userId);
         try {
@@ -34,14 +37,17 @@ const Dashboard = () => {
         }
     };
 
+    tempGetUser.current = getUser;
+    tempGetGenderedUsers.current = getGenderedUsers;
+
     useEffect(
         () => {
-            getUser();
-            getGenderedUsers();
+            tempGetUser.current();
+            tempGetGenderedUsers.current();
     } , [user, genderedUsers]);
 
-    // console.log(user);
-    // console.log(genderedUsers);
+    console.log(user);
+    console.log(genderedUsers);
     const updateMatches = async (matchedUserId) => {
         try{
             console.log(userId, matchedUserId);
@@ -66,13 +72,19 @@ const Dashboard = () => {
         console.log(name + " left the screen");
     };
 
+    const matchedUserIds = user?.matches?.map(({ user_id}) => user_id).concat(userId);
+
+    const filteredGenderedUsers = genderedUsers?.filter(
+        genderedUser => !matchedUserIds.includes(genderedUser.user_id)
+    )
+
     return (
         <div>
             {user?.gender_interest && <div className="dashboard">
             <ChatContainer user={user} />
             <div className="swipe-container">
                 <div className="cardContainer">
-                {genderedUsers.map((character) => (
+                {filteredGenderedUsers.map((character) => (
                     <TinderCard
                     className="swipe"
                     key={character.first_name}
