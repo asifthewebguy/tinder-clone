@@ -183,12 +183,23 @@ app.put('/addmatch', async(req, res) => {
 // get all users route (test)
 app.get('/users', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
+    const userIds = JSON.parse(req.query.userIds);
     try {
         await client.connect();
         const database = client.db('app-data');
         const users = database.collection('users');
-        const returnedUsers = await users.find().toArray();
-        res.json(returnedUsers);
+
+        const pipeline = [{
+            '$match': {
+                'user_id': {
+                    '$in': userIds
+                }
+            }
+        }];
+        const foundUsers = await users.aggregate(pipeline).toArray();
+        res.send(foundUsers);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     } finally {
         await client.close();
     }
