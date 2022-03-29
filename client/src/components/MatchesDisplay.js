@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 const MatchesDisplay = ({matches, setClickedUser}) => {
     const [matchProfiles, setMatchProfiles] = useState(null);
@@ -7,7 +7,7 @@ const MatchesDisplay = ({matches, setClickedUser}) => {
 
     const getMatches = async () =>{
         try{
-            await axios.get('http://localhost:8000/users',{
+            const response = await axios.get('http://localhost:8000/users',{
                 params: {userIds: JSON.stringify(matchedUserIds)}
             });
             setMatchProfiles(response.data);

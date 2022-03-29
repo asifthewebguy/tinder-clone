@@ -179,6 +179,12 @@ app.put('/addmatch', async(req, res) => {
     }
 });
 
+// get messages
+app.get('/messages', async(req, res) => {
+    const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
+    const { userId } = req.query;
+    console.log(req.query);
+});
 
 // get all users route (test)
 app.get('/users', async(req, res) => {
