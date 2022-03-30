@@ -182,10 +182,10 @@ app.put('/addmatch', async(req, res) => {
 // get messages
 app.get('/messages', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
-    const { userId } = req.query;
+    const { userId, correspondingUserId } = req.query;
 
     const query = {
-        user_id: userId,
+        from_userId: userId,
         to_userId: correspondingUserId
     };
     console.log(req.query);
