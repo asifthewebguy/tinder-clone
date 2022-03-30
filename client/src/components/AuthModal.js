@@ -20,12 +20,12 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
   const handleSubmit = async (e) => {
 
     e.preventDefault();
-    console.log("submit");
+    // console.log("submit");
     try {
       if (isSignUp && password !== confirmPassword) {
         setError("Passwords do not match");
       }
-      console.log(email, password, isSignUp);
+    //   console.log(email, password, isSignUp);
 
       const response = await axios.post(`http://localhost:8000/${ isSignUp ? 'signup':'login'}`, {email, password});
       const success = response.status === 201;

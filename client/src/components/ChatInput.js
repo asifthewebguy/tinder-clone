@@ -1,11 +1,12 @@
 import {useState} from 'react';
 import axios from 'axios';
 const ChatInput = ({user, clickedUser, getUsersMessages, getClickedUserMessages}) => {
-    const [textArea, setTextArea] = useState(null);
+    const [textArea, setTextArea] = useState("");
     const userId = user?.user_id;
     const clickedUserId = clickedUser?.user_id;
 
     const sendMessage = async () => {
+        console.log('sendMessage');
         const message = {
             timestamp: new Date().toISOString(),
             from_userId: userId,
@@ -15,6 +16,7 @@ const ChatInput = ({user, clickedUser, getUsersMessages, getClickedUserMessages}
 
         try {
             await axios.post('http://localhost:8000/messages', {message});
+            console.log('message sent');
             getUsersMessages();
             getClickedUserMessages();
             setTextArea('');

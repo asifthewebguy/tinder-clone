@@ -5,6 +5,11 @@ const Nav = ({ minimal, authToken, setShowModal, showModal, setIsSignUp }) => {
     setShowModal(true);
     setIsSignUp(false);
   };
+  const goToDashboard = () => {
+    if (authToken) {
+        window.location.href = "/dashboard";
+    }
+    };
   return (
     <nav>
       <div className={"logo-container"}>
@@ -23,6 +28,14 @@ const Nav = ({ minimal, authToken, setShowModal, showModal, setIsSignUp }) => {
           disabled={showModal}
         >
           Log in
+        </button>
+      )}
+      {authToken && (
+        <button
+          className="nav-button"
+          onClick={goToDashboard}
+        >
+          Dashboard
         </button>
       )}
     </nav>

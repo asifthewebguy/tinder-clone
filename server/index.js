@@ -5,11 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
-const { query } = require('express');
-const db_username = 'tinderDBuser';
-const db_password = '5MqAdMv3A2pLaORr';
-const db_name = 'Cluster0';
-const uri = `mongodb+srv://${db_username}:${db_password}@cluster0.kyaoo.mongodb.net/${db_name}?retryWrites=true&w=majority`;
+require('dotenv').config();
+uri = process.env.URI;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -207,7 +204,7 @@ app.get('/messages', async(req, res) => {
 app.post('/messages', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const { message } = req.body;
-
+    console.log(req.body.message);
     try {
         await client.connect();
         const database = client.db('app-data');

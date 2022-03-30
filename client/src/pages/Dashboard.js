@@ -36,9 +36,15 @@ const Dashboard = () => {
     useEffect(
         () => {
             getUser();
-            getGenderedUsers();
-    } , [user, genderedUsers]);
+    } , []);
 
+    useEffect(
+        () => {
+            if(user){
+                getGenderedUsers();
+            }
+        }, [user]
+    );
     // console.log(user);
     // console.log(genderedUsers);
 
@@ -66,7 +72,7 @@ const Dashboard = () => {
         console.log(name + " left the screen");
     };
 
-    const matchedUserIds = user?.matches?.map(({ user_id}) => user_id).concat(userId);
+    const matchedUserIds = user?.matches?.map(({ user_id }) => user_id).concat(userId);
 
     const filteredGenderedUsers = genderedUsers?.filter(
         genderedUser => !matchedUserIds.includes(genderedUser.user_id)
@@ -82,7 +88,7 @@ const Dashboard = () => {
                             {filteredGenderedUsers.map((character) => (
                                 <TinderCard
                                 className="swipe"
-                                key={character.first_name}
+                                key={character.user_id}
                                 onSwipe={(dir) => swiped(dir, character.user_id)}
                                 onCardLeftScreen={() => outOfFrame(character.first_name)}
                                 >
