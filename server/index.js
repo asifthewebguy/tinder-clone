@@ -183,7 +183,23 @@ app.put('/addmatch', async(req, res) => {
 app.get('/messages', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const { userId } = req.query;
+
+    const query = {
+        user_id: userId,
+        to_userId: correspondingUserId
+    };
     console.log(req.query);
+    try {
+        await client.connect();
+        const database = client.db('app-data');
+        const messages = database.collection('messages');
+        const foundMessages = await messages.find(query).toArray();
+        res.send(foundMessages);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await client.close();
+    }
 });
 
 // get all users route (test)
