@@ -147,7 +147,7 @@ app.get('/gendered-users', async(req, res) => {
         const users = database.collection('users');
         const query = { gender_identity: { $eq: gender } }
         const genderedUsers = await users.find(query).toArray();
-        console.log('gendered', genderedUsers);
+        // console.log('gendered', genderedUsers);
         res.send(genderedUsers);
     } finally {
         await client.close();
@@ -187,7 +187,7 @@ app.get('/messages', async(req, res) => {
         from_userId: userId,
         to_userId: correspondingUserId
     };
-    console.log(req.query);
+    // console.log(req.query);
     try {
         await client.connect();
         const database = client.db('app-data');
@@ -223,6 +223,7 @@ app.post('/messages', async(req, res) => {
 app.get('/users', async(req, res) => {
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const userIds = JSON.parse(req.query.userIds);
+    console.log(req.query.userIds);
     try {
         await client.connect();
         const database = client.db('app-data');
@@ -236,6 +237,7 @@ app.get('/users', async(req, res) => {
             }
         }];
         const foundUsers = await users.aggregate(pipeline).toArray();
+        console.log(foundUsers);
         res.send(foundUsers);
     } catch (err) {
         res.status(500).json({ message: err.message });

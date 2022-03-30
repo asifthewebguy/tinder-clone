@@ -18,13 +18,13 @@ const MatchesDisplay = ({matches, setClickedUser}) => {
     useEffect(() => {
         getMatches();
     },[]);
-    console.log(matchProfiles);
+
     return (
         <div className="matches-display">
-            {matchProfiles?.map((match, index) => (
-                <div key={{ index }} className="match-card" onClick={setClickedUser(match)}>
-                    <div className="image-container">
-                        <img src={match?.url} alt={ match?.first_name + " profile"} />
+            {matchProfiles?.map((match, _index) => (
+                <div key={{ _index }} className="match-card" onClick={()=>setClickedUser(match)}>
+                    <div className="img-container">
+                        <img src={match.url} alt={ match.first_name + " profile"} />
                     </div>
                     <h3>{match.first_name}</h3>
                 </div>
