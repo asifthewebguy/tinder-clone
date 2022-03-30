@@ -119,7 +119,6 @@ app.put('/user', async(req, res) => {
 
 // get single user data
 app.get('/user', async(req, res) => {
-    console.log("get user");
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const userId = req.query.userId;
     try {
@@ -140,9 +139,9 @@ app.get('/user', async(req, res) => {
 
 // get gendered users
 app.get('/gendered-users', async(req, res) => {
-    console.log("get gendered users");
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
-    const { gender } = req.query;
+    const gender = req.query.gender;
+    console.log(req.query);
     try {
         await client.connect();
         const database = client.db('app-data');
