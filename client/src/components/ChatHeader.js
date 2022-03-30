@@ -2,7 +2,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 const ChatHeader = ({user}) => {
-    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const [cookies, removeCookie] = useCookies(['user']);
     const navigate = useNavigate();
 
     const logout = () => {
@@ -14,11 +14,11 @@ const ChatHeader = ({user}) => {
         <div className="chat-container-header">
             <div className="profile">
                 <div className="img-container">
-                    <img src={user.url} alt="Photo of {user.first_name}" />
+                    <img src={user.url} alt="{user.first_name + 'profile'}" />
                 </div>
                 <h3>{user.first_name}</h3>
             </div>
-            <i className="log-out-icon" onClick={logout}>🔙</i>
+            <i className="log-out-icon" onClick={logout}>«&nbsp;Logout</i>
         </div>
     )
 }

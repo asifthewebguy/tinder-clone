@@ -352,6 +352,15 @@ nav .logo-container .logo {
 }
 
 
+/* .self {
+    float: right;
+} */
+
+.self .img-container img {
+    right: 0;
+}
+
+
 /* ---ChatInput--- */
 
 .chat-input {

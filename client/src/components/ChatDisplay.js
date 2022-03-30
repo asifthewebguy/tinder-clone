@@ -46,6 +46,7 @@ const ChatDisplay = ({ user, clickedUser }) => {
     const messages = [];
     userMessages?.forEach(message => {
         const formattedMessage = {};
+        formattedMessage['class'] = 'self';
         formattedMessage['name'] = user?.first_name;
         formattedMessage['img'] = user?.url;
         formattedMessage['message'] = message.message;
@@ -55,6 +56,7 @@ const ChatDisplay = ({ user, clickedUser }) => {
 
     clickedUsersMessages?.forEach(message => {
         const formattedMessage = {};
+        formattedMessage['class'] = 'other';
         formattedMessage['name'] = clickedUser?.first_name;
         formattedMessage['img'] = clickedUser?.url;
         formattedMessage['message'] = message.message;

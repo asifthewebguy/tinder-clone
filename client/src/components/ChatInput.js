@@ -7,14 +7,14 @@ const ChatInput = ({user, clickedUser, getUsersMessages, getClickedUserMessages}
 
     const sendMessage = async () => {
         const message = {
-            timestamp: new Date.toISOString(),
+            timestamp: new Date().toISOString(),
             from_userId: userId,
             to_userId: clickedUserId,
             message: textArea
         };
 
         try {
-            await axios.post('http://localhost:8000/messages', message);
+            await axios.post('http://localhost:8000/messages', {message});
             getUsersMessages();
             getClickedUserMessages();
             setTextArea('');
@@ -31,7 +31,7 @@ const ChatInput = ({user, clickedUser, getUsersMessages, getClickedUserMessages}
                 value={textArea === null ? '' : textArea}
                 onChange={(e)=>{setTextArea(e.target.value)}}>
             </textarea>
-           <button className="secondary-button" onClick={sendMessage}>Submit</button>
+           <button className="secondary-button" onClick={sendMessage} >Submit</button>
         </div>
     );
 }
