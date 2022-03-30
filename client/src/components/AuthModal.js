@@ -25,12 +25,14 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
       if (isSignUp && password !== confirmPassword) {
         setError("Passwords do not match");
       }
-      const response = await axios.post(`http://localhost:8000/${isSignUp ? 'signup':'login'}`, {email, password});
+      console.log(email, password, isSignUp);
+
+      const response = await axios.post(`http://localhost:8000/${ isSignUp ? 'signup':'login'}`, {email, password});
       const success = response.status === 201;
 
       setCookie('UserId', response.data.user_id, { path: '/' });
       setCookie('AuthToken', response.data.token, { path: '/' });
-      const authToken = cookies.AuthToken;
+    //   const authToken = cookies.AuthToken;
 
       if(success && isSignUp) navigate("/boarding");
       if(success && !isSignUp) navigate("/dashboard");

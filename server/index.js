@@ -19,6 +19,7 @@ app.get('/', (req, res) => {
 
 // signup route
 app.post('/signup', async(req, res) => {
+    console.log('signup');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const { email, password } = req.body;
 
@@ -53,6 +54,7 @@ app.post('/signup', async(req, res) => {
 
 // login route
 app.post('/login', async(req, res) => {
+    console.log('login');
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, });
     const { email, password } = req.body;
     try {
