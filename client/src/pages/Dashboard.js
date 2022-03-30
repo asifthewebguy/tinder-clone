@@ -1,5 +1,5 @@
 import TinderCard from "react-tinder-card";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import ChatContainer from '../components/ChatContainer';
@@ -7,51 +7,40 @@ import ChatContainer from '../components/ChatContainer';
 const Dashboard = () => {
     const [user, setUser] = useState(null);
     const [genderedUsers, setGenderedUsers] = useState(null);
-    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const [cookies] = useCookies(['user']);
     const [lastDirection, setLastDirection] = useState(null);
     const userId = cookies.UserId;
 
-    const tempGetUser = useRef(null);
-    const tempGetGenderedUsers = useRef(null);
-
     const getUser = async () => {
-        // console.log(userId);
         try {
             const response = await axios.get('http://localhost:8000/user', {
                 params: { userId }
             });
             setUser(response.data);
-            getGenderedUsers();
-            console.log(user);
         } catch (err){
             console.log(err);
         }
     };
 
     const getGenderedUsers = async () => {
-        if (user?.gender_interest){
             try{
                 const response = await axios.get('http://localhost:8000/gendered-users', {
                     params: { gender: user?.gender_interest }
                 });
                 setGenderedUsers(response.data);
-                console.log(genderedUsers);
             } catch (err){
                 console.log(err);
             }
-        } else {
-            console.log('user has no gender interest');
-        }
     };
-
-    tempGetUser.current = getUser;
-    tempGetGenderedUsers.current = getGenderedUsers;
 
     useEffect(
         () => {
             getUser();
-
+            getGenderedUsers();
     } , [user, genderedUsers]);
+
+    console.log(user);
+    console.log(genderedUsers);
 
     const updateMatches = async (matchedUserId) => {
         try{
@@ -85,7 +74,7 @@ const Dashboard = () => {
 
     return (
         <div>
-            {user?.gender_interest && (
+            {filteredGenderedUsers && (
                 <div className="dashboard">
                     <ChatContainer user={user} />
                     <div className="swipe-container">
